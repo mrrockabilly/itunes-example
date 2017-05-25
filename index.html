@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>iTunes API Tutorial</title>
+    <link rel="shortcut icon" href="http://findicons.com/files/icons/2770/ios_7_icons/512/music.png">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 6em;
+            margin-top: 7%;
+        }
+        
+        .parallax-container {
+            height: 300px;
+            opacity: 1;
+        }
+        
+        .media {
+            margin: 10px;
+            overflow: scroll;
+        }
+        
+        .media,
+        .bd {
+            overflow: hidden;
+            zoom: 1;
+        }
+        
+        .media .img {
+            float: left;
+            margin-right: 10px;
+        }
+        
+        .media .img img {
+            display: block;
+        }
+        
+        .media .imgExt {
+            float: right;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="parallax-container">
+        <div class="parallax"><img src="https://www.pets4homes.co.uk/images/articles/2838/large/12-large-cat-breeds-that-make-lovely-pets-554a168a454b5.jpg"></div>
+        <h1>iTunes API Project</h1>
+    </div>
+
+    <div class="row">
+        <form id="custom-search-input" class="col s12">
+            <div class="row">
+                <div class="input-field col s12">
+                    <textarea name="searchterm" id="textarea1" class="materialize-textarea" data-length="120" onKeyDown="if(event.keyCode==13) getData(searchterm);"></textarea>
+                    <label for="textarea1">Search by Artist</label>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <ul class="collapsible popout" data-collapsible="accordion" id="media">
+    </ul>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+    <script>
+        // $(document).ready(... This is jQuery function that runs when the page is loaded.
+        // Do you want to load when the page is ready or when some button is clicked?
+        // Are you waiting for an input from the user???
+        function getData(term){
+            searchTerm = term.value;
+            var form = document.getElementById("custom-search-input");
+            form.reset();
+            searchTerm = searchTerm.replace(/[^0-9a-zA-Z]/g, '+');
+            console.log(searchTerm)
+            $.ajax({
+                url: `http://itunes.apple.com/search?term=${searchTerm}`,
+                dataType: 'JSONP'
+            })
+                .done(function (data) {
+                    for (let i = 0; i < data.results.length; i++) {
+                        $("#media").append(`
+                            <li>
+                                <div class="collapsible-header"><i class="material-icons">queue_music</i>${data.results[i].trackName}</div>
+                                <div class="collapsible-body">
+                                    <div class="media attribution">
+                                        <a href="http://twitter.com/stubbornella" class="img">
+                                            <img src="${data.results[i].artworkUrl100}" alt="me" />
+                                        </a>
+                                        <div class="bd">
+                                            Artist: ${data.results[i].artistName} <br>
+                                            Album: ${data.results[i].artistName} <br>
+                                            Track Cost: $ ${data.results[i].trackPrice} <br>
+                                            <audio controls>
+                                                <source src="${data.results[i].previewUrl}" type="audio/mp4">
+                                            </audio>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                    `)
+                    }
+                })
+                .fail(function (data) {
+                    console.log("ERROR");
+                    // add code for when the data fails to come back.
+                })
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.collapsible').collapsible();
+            $('.parallax').parallax();
+        });
+    </script>
+
+</body>
+
+</html>
