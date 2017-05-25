@@ -96,7 +96,7 @@
             $('#media').html("");
             console.log(searchTerm)
             $.ajax({
-                url: `http://itunes.apple.com/search?term=${searchTerm}`,
+                url: `https://itunes.apple.com/search?term=${searchTerm}`,
                 dataType: 'JSONP'
             })
                 .done(function (data) {
