@@ -98,7 +98,7 @@
         // Do you want to load when the page is ready or when some button is clicked?
         // Are you waiting for an input from the user???
         function getData(term){
-            $('#cat').html("<img src='http://33.media.tumblr.com/49839e1d872f9aa0813df664a1ba0779/tumblr_ni12fn2JYx1rxx1vlo1_250.gif'>");
+            $('#cat').html("<img src='https://33.media.tumblr.com/49839e1d872f9aa0813df664a1ba0779/tumblr_ni12fn2JYx1rxx1vlo1_250.gif'>");
             searchTerm = term.value;
             var form = document.getElementById("custom-search-input");
             form.reset();
@@ -106,7 +106,7 @@
             $('#media').html("");
             console.log(searchTerm)
             $.ajax({
-                url: `http://itunes.apple.com/search?term=${searchTerm}`,
+                url: `https://itunes.apple.com/search?term=${searchTerm}`,
                 dataType: 'JSONP'
             })
                 .done(function (data) {
