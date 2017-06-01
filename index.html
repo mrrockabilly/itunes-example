@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>iTunes API Tutorial</title>
-    <link rel="shortcut icon" href="https://findicons.com/files/icons/2770/ios_7_icons/512/music.png">
+    <link rel="shortcut icon" href="music.png">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -14,6 +14,10 @@
             color: white;
             font-size: 6em;
             margin-top: 7%;
+        }
+        h6 {
+            text-align: center;
+            color: white;
         }
         #message{
             text-align: center;
@@ -52,6 +56,10 @@
         #cat img{
             display: block;
             margin: 0 auto;
+            width: 200px;
+        }
+        .error{
+            text-align: center;
         }
     </style>
 </head>
@@ -59,8 +67,10 @@
 <body>
 
     <div class="parallax-container">
-        <div class="parallax"><img src="https://www.pets4homes.co.uk/images/articles/2838/large/12-large-cat-breeds-that-make-lovely-pets-554a168a454b5.jpg"></div>
+        <div class="parallax"><img src="https://s-media-cache-ak0.pinimg.com/originals/a3/d1/54/a3d154b4d50464cc0ac36430caeb65ca.jpg"></div>
         <h1>iTunes API Project</h1>
+        <h6>by Mr. Rockabilly</h6>
+        <h6>Data provided by Apple iTunes API</h6>
     </div>
 
     <div class="row">
@@ -88,7 +98,7 @@
         // Do you want to load when the page is ready or when some button is clicked?
         // Are you waiting for an input from the user???
         function getData(term){
-            $('#cat').html("<img src='https://s-media-cache-ak0.pinimg.com/originals/e0/f5/a5/e0f5a5f8c2e378df4fddd75e26e9a5a3.gif'>");
+            $('#cat').html("<img src='http://33.media.tumblr.com/49839e1d872f9aa0813df664a1ba0779/tumblr_ni12fn2JYx1rxx1vlo1_250.gif'>");
             searchTerm = term.value;
             var form = document.getElementById("custom-search-input");
             form.reset();
@@ -96,14 +106,17 @@
             $('#media').html("");
             console.log(searchTerm)
             $.ajax({
-                url: `https://itunes.apple.com/search?term=${searchTerm}`,
+                url: `http://itunes.apple.com/search?term=${searchTerm}`,
                 dataType: 'JSONP'
             })
                 .done(function (data) {
                     $('#cat').html("");
                     console.log(data)
                     if(data.results.length === 0){
-                         $("#cat").html('<h3>No Results</h3>')
+                         $("#cat").html(`<div class="error">
+                                            <h4>No Results</h4>
+                                            <p> Please try another search! </p>
+                                        </div>`)
                     }
                     for (let i = 0; i < data.results.length; i++) {
                         $("#media").append(`
@@ -132,7 +145,13 @@
 
                 })
                 .fail(function (data) {
-                     $("#cat").html('<h3 id="message">ERROR!!!!!</h3>')
+                    console.log(data);
+                     $("#cat").html(`
+                                <div class="error">
+                                    <h4>Error! Status: ${data.status}</h4>
+                                    <p>Please try again later!</p>
+                                </div>
+                                `)
                     // add code for when the data fails to come back.
                 })
         }
