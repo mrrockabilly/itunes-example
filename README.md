@@ -6,6 +6,6 @@ This application uses the publicly available iTunes API data to allow users to s
 
 https://mrrockabilly.github.io/itunes-example
 
-## Technlogies Used
+## Technologies Used
 
 Materialize CSS, jQuery, and HTML/CSS.
